@@ -28,6 +28,6 @@ public class HomeController {
         model.addAttribute("projects", projects);
         model.addAttribute("employees", employees);
 
-        return "home";
+        return "main/home";
     }
 }
