@@ -14,7 +14,7 @@ public class Project {
     private String description;
 
     @OneToMany(mappedBy = "project")
-    private List<Employee> employee;
+    private List<Employee> employees;
 
     public Project() {
     }
@@ -57,11 +57,11 @@ public class Project {
         this.description = description;
     }
 
-    public List<Employee> getEmployee() {
-        return employee;
+    public List<Employee> getEmployees() {
+        return employees;
     }
 
-    public void setEmployee(List<Employee> employee) {
-        this.employee = employee;
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
 }
