@@ -2,6 +2,7 @@ package com.maylcf.projectmanagement.controllers;
 
 import com.maylcf.projectmanagement.dao.EmployeeRepository;
 import com.maylcf.projectmanagement.dao.ProjectRepository;
+import com.maylcf.projectmanagement.dto.EmployeeProject;
 import com.maylcf.projectmanagement.entities.Employee;
 import com.maylcf.projectmanagement.entities.Project;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,10 @@ public class HomeController {
     @GetMapping("/")
     public String displayHome(Model model) {
         List<Project> projects = projectRepo.findAll();
-        List<Employee> employees = employeeRepo.findAll();
+        List<EmployeeProject> employees = employeeRepo.employeeProject();
 
         model.addAttribute("projects", projects);
-        model.addAttribute("employees", employees);
+        model.addAttribute("employeeProjects", employees);
 
         return "main/home";
     }
