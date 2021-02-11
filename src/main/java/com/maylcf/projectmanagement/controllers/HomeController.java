@@ -8,6 +8,7 @@ import com.maylcf.projectmanagement.dto.ChartData;
 import com.maylcf.projectmanagement.dto.EmployeeProject;
 import com.maylcf.projectmanagement.entities.Project;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,10 @@ import java.util.Map;
 @Controller
 public class HomeController {
 
+    // Access a value from application.properties
+    @Value("${version}")
+    private String version;
+
     @Autowired
     ProjectRepository projectRepo;
 
@@ -27,6 +32,9 @@ public class HomeController {
 
     @GetMapping("/")
     public String displayHome(Model model) throws JsonProcessingException {
+        // application version.
+        model.addAttribute("versionNumber", version);
+
         // project info
         List<Project> projects = projectRepo.findAll();
         model.addAttribute("projects", projects);
