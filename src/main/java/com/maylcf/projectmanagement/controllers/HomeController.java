@@ -2,11 +2,11 @@ package com.maylcf.projectmanagement.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.maylcf.projectmanagement.dao.EmployeeRepository;
-import com.maylcf.projectmanagement.dao.ProjectRepository;
 import com.maylcf.projectmanagement.dto.ChartData;
 import com.maylcf.projectmanagement.dto.EmployeeProject;
 import com.maylcf.projectmanagement.entities.Project;
+import com.maylcf.projectmanagement.services.EmployeeService;
+import com.maylcf.projectmanagement.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -25,10 +25,10 @@ public class HomeController {
     private String version;
 
     @Autowired
-    ProjectRepository projectRepo;
+    ProjectService projectService;
 
     @Autowired
-    EmployeeRepository employeeRepo;
+    EmployeeService employeeService;
 
     @GetMapping("/")
     public String displayHome(Model model) throws JsonProcessingException {
@@ -36,11 +36,11 @@ public class HomeController {
         model.addAttribute("versionNumber", version);
 
         // project info
-        List<Project> projects = projectRepo.findAll();
+        List<Project> projects = projectService.getAll();
         model.addAttribute("projects", projects);
 
         // employee info
-        List<EmployeeProject> employees = employeeRepo.employeeProject();
+        List<EmployeeProject> employees = employeeService.getEmployeeProjects();
         model.addAttribute("employeeProjects", employees);
 
         // project status info
@@ -52,7 +52,7 @@ public class HomeController {
 
     public String getProjectStatusJsonData() throws JsonProcessingException {
         Map<String, Object> map = new HashMap<>();
-        List<ChartData> projectData = projectRepo.getProjectStatus();
+        List<ChartData> projectData = projectService.getProjectStatus();
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(projectData);
     }
