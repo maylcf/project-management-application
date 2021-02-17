@@ -1,8 +1,8 @@
 package com.maylcf.projectmanagement.controllers;
 
-import com.maylcf.projectmanagement.dao.EmployeeRepository;
-import com.maylcf.projectmanagement.dao.ProjectRepository;
 import com.maylcf.projectmanagement.entities.Project;
+import com.maylcf.projectmanagement.services.EmployeeService;
+import com.maylcf.projectmanagement.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,14 +17,14 @@ import java.util.List;
 public class ProjectController {
 
     @Autowired
-    ProjectRepository repository;
+    ProjectService projectService;
 
     @Autowired
-    EmployeeRepository employeeRepo;
+    EmployeeService employeeService;
 
     @GetMapping
     public String displayProjects(Model model) {
-        List<Project> projects = repository.findAll();
+        List<Project> projects = projectService.getAll();
         model.addAttribute("projects", projects);
         return "projects/list-projects";
     }
@@ -32,14 +32,14 @@ public class ProjectController {
     @GetMapping("/new")
     public String displayProjectForm(Model model) {
         model.addAttribute("project", new Project());
-        model.addAttribute("employees", employeeRepo.findAll());
+        model.addAttribute("employees", employeeService.getAll());
 
         return "projects/new-project";
     }
 
     @PostMapping("/save")
     public String createProject(Project project, Model model) {
-        repository.save(project);
+        projectService.save(project);
 
         //use a redirect to prevent duplicate submissions.
         return "redirect:/projects";
